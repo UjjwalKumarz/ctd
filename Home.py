@@ -17,14 +17,7 @@ from langchain.schema.output_parser import StrOutputParser
 # from weasyprint import HTML
 import pdfkit
 
-
 from prompts import PROMPTS, modules  # Importing necessary modules and packages
-
-wkhtmltopdf_path = os.path.join(os.getcwd(), 'wkhtmltopdf', 'bin', 'wkhtmltopdf')
-if not os.path.isfile(wkhtmltopdf_path):
-    raise FileNotFoundError("wkhtmltopdf executable not found at %s" % wkhtmltopdf_path)
-# Configure pdfkit to use the binary
-config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_path)
 
 def reset():
     """Reset session state variables."""

@@ -7,6 +7,4 @@ langchain_community
 langchain_elasticsearch
 bs4
 pdfkit
-weasyprint
 chromadb
-sqlite3==3.12

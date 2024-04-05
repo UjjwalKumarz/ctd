@@ -8,3 +8,4 @@ langchain_elasticsearch
 bs4
 pdfkit
 weasyprint
+chromadb

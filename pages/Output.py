@@ -3,6 +3,7 @@ from streamlit_pills import pills
 from prompts import PROMPTS
 # from weasyprint import HTML
 import pdfkit
+import base64
 from bs4 import BeautifulSoup
 
 

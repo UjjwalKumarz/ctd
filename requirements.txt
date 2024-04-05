@@ -9,4 +9,4 @@ bs4
 pdfkit
 weasyprint
 chromadb
-sqlite3
+sqlite3==3.12

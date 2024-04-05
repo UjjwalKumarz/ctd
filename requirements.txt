@@ -1,0 +1,11 @@
+os
+json
+langchain
+streamlit
+streamlit_pills
+operator
+langchain_openai
+langchain_core
+langchain_community
+langchain_elasticsearch
+weasyprint

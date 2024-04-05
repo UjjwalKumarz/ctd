@@ -1,7 +1,8 @@
 import streamlit as st
 from streamlit_pills import pills
 from prompts import PROMPTS
-from weasyprint import HTML
+# from weasyprint import HTML
+import pdfkit
 from bs4 import BeautifulSoup
 
 
@@ -40,15 +41,41 @@ if output_path and st.button("Create pdf file"):
             </html>'''
     with st.spinner('Converting to html file...'):
         # Path to save the HTML file
-        html_file_path = st.session_state.output_path + '.html'
+        html_file_path = '__pycache__/'+ st.session_state.output_path + '.html'
 
         # Write HTML code to file
         with open(html_file_path, 'w') as html_file:
             html_file.write(code)
-        pdf_output_path = st.session_state.output_path + '.pdf'
+        pdf_output_path = st.session_state.output_path.strip() + '.pdf'
     with st.spinnner('Generating PDF...'):
-        # Convert HTML to PDF
-        HTML(html_file_path).write_pdf(pdf_output_path)
-        st.success("Pdf file generated successfully")
+        try:
+            pdfkit.from_file(html_file_path, pdf_output_path, configuration=config)
+            # Read the generated PDF file as bytes
+            with open(pdf_output_path, "rb") as f:
+                pdf_bytes = f.read()
+            st.success("PDF file generated. Click on 'Download PDF' to save.")
+            # Provide download link for the PDF file
+            b64 = base64.b64encode(pdf_bytes).decode()
+            href = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_output_path}">Download PDF file</a>'
+            st.markdown(href, unsafe_allow_html=True)
+        except Exception as e:
+            st.warning(f"PDF file generation failed. Error: {e}")
+        
+        # # Convert HTML to PDF
+        # # HTML(html_file_path).write_pdf(pdf_output_path)
+        # pdfkit.from_file(html_file_path, pdf_output_path, configuration=config)
+        # # download the PDF file
+        # if pdf_bytes is not None:
+        #     st.success("PDF file Generated. Click on 'Download PDF' to save.")
+        #     b64 = base64.b64encode(pdf_bytes).decode()
+        #     href = f'<a href="data:application/pdf;base64,{b64}" download="{filename}">Download PDF file</a>'
+        #     st.markdown(href, unsafe_allow_html=True)
+        #     # remove the success message and download link
+        #     st.empty()
+        # else:
+        #     st.warning("PDF file generation failed. Please try again.")
+
+        
+        st.success("Pdf file downloaded successfully")
 
 

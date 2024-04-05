@@ -21,6 +21,13 @@ if "subparts" in st.session_state:
             st.session_state.final[selected_subpart] = selected_response
 
 output_path = st.text_input("Provide the output path")
+
+wkhtmltopdf_path = os.path.join(os.getcwd(), 'wkhtmltopdf', 'bin', 'wkhtmltopdf')
+if not os.path.isfile(wkhtmltopdf_path):
+    raise FileNotFoundError("wkhtmltopdf executable not found at %s" % wkhtmltopdf_path)
+# Configure pdfkit to use the binary
+config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_path)
+
 if output_path and st.button("Create pdf file"):
     with st.spinner('Preparing output data...'):
         for subpart in st.session_state.final:

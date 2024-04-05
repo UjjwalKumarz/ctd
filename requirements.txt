@@ -1,5 +1,3 @@
-os
-json
 langchain
 streamlit
 streamlit_pills
@@ -8,4 +6,5 @@ langchain_openai
 langchain_core
 langchain_community
 langchain_elasticsearch
+bs4
 weasyprint

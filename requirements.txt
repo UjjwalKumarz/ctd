@@ -6,4 +6,5 @@ langchain_core
 langchain_community
 langchain_elasticsearch
 bs4
+pdfkit
 weasyprint

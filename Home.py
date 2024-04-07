@@ -14,10 +14,10 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import RetrievalQA
 from langchain_elasticsearch import ElasticsearchStore
 from langchain.schema.output_parser import StrOutputParser
-# from weasyprint import HTML
-import pdfkit
+
 
 from prompts import PROMPTS, modules  # Importing necessary modules and packages
+
 
 def reset():
     """Reset session state variables."""
@@ -281,7 +281,7 @@ def load_chain_and_memory(drug_name, req_mod):
             ("system", '''You are an expert medical CTD drug report generator. The user wants you to create an specific section of the drug efficacy report. 
                 He will first provide the details that need to be maintained in that particular section along with the subparts that needs to be present in it.
                 Generate the result in more than 2500 words.
-                Provide the generated contents in html format quoted in this- ```html\n(contents)```'''),
+                Provide the generated contents in html format quoted in this- ```html\n<h3>(subpart name)</h3>(contents)```'''),
             MessagesPlaceholder(variable_name="history"),
             ("human", "{input}"),
         ]
@@ -301,11 +301,12 @@ def load_chain_and_memory(drug_name, req_mod):
     # Invoking initial prompt
     input1 = {"input" : init_prompt}
     r = chain.invoke(input1)
+    modified_r = r.content.split('Now')[0].split('```')[0]
 
     ##### Write code for filtering non-html########################
 
-    st.session_state.responses.append(r.content)
-    memory.save_context(input1, {"output": r.content})
+    st.session_state.responses.append(modified_r)
+    memory.save_context(input1, {"output": modified_r})
     memory.load_memory_variables({})
 
     # Generating subparts list
